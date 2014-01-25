@@ -1,6 +1,6 @@
 $(document).ready(function() {
   
-  var crt_id = 0;
+  var count = 0, crt_id = -1;
   var curr_corpus;
   var $cartel_wrapper = $('#cartel-wrapper');
   var $last_cartel, $next_cartel;
@@ -46,11 +46,15 @@ $(document).ready(function() {
 
   function dbInited(data){
     console.log('dbInited', data);
+    count = data.count;
     loadCorpus();
   };
 
   function loadCorpus(){
     crt_id ++;
+
+    if(crt_id > 753)
+      crt_id = 0;
     
     if(debug)
       displayDebug("next cartel index = "+crt_id);

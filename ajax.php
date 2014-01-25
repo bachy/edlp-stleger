@@ -50,8 +50,8 @@ function init(){
     fclose($fh1);
     fclose($fh2);
     
-    $ret['nodes'] = $nodes;
-    $ret['entries'] = $entries;
+    // $ret['nodes'] = $nodes;
+    // $ret['entries'] = $entries;
 
     # TODO :  i'll have to sort the entries order
 
@@ -67,6 +67,8 @@ function init(){
         }
       }
     }
+
+    $ret['count'] = count($playlist);
 
     $playlist_str = serialize($playlist);
     $playlist_files = fopen('assets/data/playlist.txt', 'r+');
@@ -117,7 +119,7 @@ function getCorpus(){
 
   # get next sound
   $index = $_GET['index'];
-
+  // $ret['count'] = count($playlist);
   $ret['index'] = $index;
   $ret['corpus'] = $playlist[$index];
 
