@@ -140,10 +140,10 @@ $(document).ready(function() {
   function onSoundTimeUpdate(event){
       // console.log('timeupdate', event);
 
-      if(debug)
-        for(key in event.currentTarget){
-          displayDebug(typeof event.currentTarget[key] +' / '+ key+' : '+event.currentTarget[key]);
-        }
+      // if(debug)
+      //   for(key in event.currentTarget){
+      //     displayDebug(typeof event.currentTarget[key] +' / '+ key+' : '+event.currentTarget[key]);
+      //   }
 
       curTime = event.currentTarget.currentTime;
       cur_mins=Math.floor(curTime/60);
@@ -152,13 +152,15 @@ $(document).ready(function() {
 
       // if duration is undefined and currentTarget.duration is defined
       if(!dur){
-        if(typeof event.currentTarget.duration === "number"){
-          dur = event.currentTarget.duration;
-          // dur_mins=Math.floor(dur/60);
-          // dur_secs= Math.floor(dur-dur_mins * 60);
-          durtxt = dur+typeof dur;
-          // durtxt =  ' / <span class="duration">'+(dur_mins>9?dur_mins:"0"+dur_mins)+':'+(dur_secs>9?dur_secs:"0"+dur_secs)+'</span>';
-        }  
+        setTimeout(function(){
+          if(typeof event.currentTarget.duration === "number"){
+            dur = event.currentTarget.duration;
+            dur_mins=Math.floor(dur/60);
+            dur_secs= Math.floor(dur-dur_mins * 60);
+            // durtxt = dur+typeof dur;
+            durtxt =  ' / <span class="duration">'+(dur_mins>9?dur_mins:"0"+dur_mins)+':'+(dur_secs>9?dur_secs:"0"+dur_secs)+'</span>';
+          }
+        }, 5);
       }else if(typeof dur === "number"){
         prct = curTime*100/dur;
         $progressbar.width(prct+"%");
