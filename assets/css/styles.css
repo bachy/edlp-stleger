@@ -1,18 +1,80 @@
+/*
+ * www.g-u-i.net
+ */
 html {
-  font: 16px Georgia, sans-serif;
+  font: 16px Georgia, serif;
 }
 body {
-  width: 100%;
   position: relative;
   background-color: #eee;
 }
 #root {
   position: relative;
-  width: 800px;
-  height: 600px;
+  width: 1000px;
+  height: 700px;
   margin: 0 auto;
   background-color: #fff;
 }
-h1 {
+header {
+  height: 40px;
+  padding: 10px;
+  border-bottom: 1px dotted #c80000;
+}
+header h1 {
   text-align: center;
+  font-size: 1em;
+}
+#cartel-wrapper {
+  height: 580px;
+  position: relative;
+}
+#cartel-wrapper .cartel {
+  position: absolute;
+  width: 90%;
+  padding: 0 5%;
+  text-align: center;
+  -webkit-transition: opacity 1s linear;
+  -moz-transition: opacity 1s linear;
+  -o-transition: opacity 1s linear;
+  transition: opacity 1s linear;
+  opacity: 0;
+}
+#cartel-wrapper .cartel.in {
+  opacity: 1;
+}
+#cartel-wrapper .cartel.out {
+  opacity: 0;
+}
+#cartel-wrapper .corpus-title {
+  font-size: 2.3em;
+}
+#cartel-wrapper .corpus-body {
+  font-size: 1.5em;
+}
+#cartel-wrapper .progress {
+  margin: 4em 0;
+  display: inline-block;
+  width: 60%;
+  height: 5px;
+  position: relative;
+  border-top: 2px dotted #ccc;
+}
+#cartel-wrapper .progress .progress-barre {
+  width: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-top: 2px dotted #c80000;
+  margin-top: -2px;
+}
+footer {
+  padding: 10;
+  border-top: 1px dotted #c80000;
+  height: 40px;
+  text-align: center;
+  font-size: 0.65em;
+}
+footer a {
+  text-decoration: none;
+  color: inherit;
 }

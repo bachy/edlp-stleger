@@ -1,7 +1,8 @@
 <?php 
 
+# array rtet to fill and then return as json
 $ret = array(
-  "test" => "hello!"
+  // "test" => "hello!"
 );
 
 $drive_csv_url = "https://docs.google.com/spreadsheet/pub?key=0AouWOA7wSzR-dG14ZUFuc2t5RlR4dk1DdjZKZUJtR1E&single=true&gid=0&output=csv";
@@ -11,8 +12,8 @@ if(!ini_set('default_socket_timeout',    15))
 
 $data = array();
 
-if (false && ($fh = fopen($drive_csv_url, "r")) !== FALSE){
-  # if we can connect to drive spreadsheet
+# if we have internet and we can connect to drive spreadsheet
+if (($fh = fopen($drive_csv_url, "r")) !== FALSE){
   while ( ($row = fgetcsv($fh, 5000, ",")) !== FALSE) {
       $data[] = $row;
   }

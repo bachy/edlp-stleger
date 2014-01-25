@@ -7,7 +7,18 @@
 </head>
 <body>
   <div id="root">
-    <h1>Encyclopedie de la parole</h1>
-  </div>
+  
+    <header>
+      <h1>Encyclopedie de la parole</h1>
+    </header>
+    
+    <div id="cartel-wrapper">
+    </div> 
+    
+    <footer>
+      <a href="http://www.encyclopediedelaparole.org">encyclopediedelaparole.org</a>
+    </footer>
+  
+  </div> <!-- //root -->
 </body>
 </html>
