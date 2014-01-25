@@ -30,18 +30,22 @@ if (($fh = fopen($drive_csv_url, "r")) !== FALSE){
   }
   fclose($fh_txt);
   
-}else{
+}
+# without connection load the serialized array
+else{
   $ret['errors'][] = "Problem reading google drive csv, you may check your internet connection";
   # load data from local serialized array
   $data = unserialize(file_get_contents("assets/data/data.txt"));
 }
+// $ret['alldb'] = $data;
 
-$ret['data'] = $data;
+# get next sound
+$index = $_GET['index'];
+
+$ret['index'] = $index;
+$ret['corpus'] = $data[$index];
 
 # check time
-
-
-
 
 
 # return json
@@ -51,8 +55,6 @@ returnJson($ret);
 /**
 * Helpers
 */
-
-
 
 function returnJson($array){
   header('Content-Type: application/json');
