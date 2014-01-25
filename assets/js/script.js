@@ -1,24 +1,25 @@
 $(document).ready(function() {
   
   var crt_id = 0;
-  var keys, curr_corpus = {};
+  var curr_corpus;
   var $cartel_wrapper = $('#cartel-wrapper');
   var $last_cartel, $next_cartel;
   var $audio, $progressbar, $duration;
+  var $index = $('<span>').addClass('index').appendTo('#debug');
 
   function init(){
-    loadKeys();
+    initDB();
     // loadCorpus();
   };
 
-  function loadKeys(){
+  function initDB(){
     $.ajax({
       url: 'ajax.php',
       // type: 'default GET (Other values: POST)',
       dataType: 'json',
-      data: {index: 0},
+      data: {fun:'init'},
     })
-    .done(keysLoaded)
+    .done(dbInited)
     .fail(function(e) {
       console.log("error", e);
     })
@@ -27,20 +28,19 @@ $(document).ready(function() {
     });
   };
 
-  function keysLoaded(data){
-    console.log('keysLoaded', data);
-    keys = data.corpus;
-    console.log('keys = ', keys);
+  function dbInited(data){
+    console.log('dbInited', data);
     loadCorpus();
   };
 
   function loadCorpus(){
     crt_id ++;
+    $index.text(crt_id);
     $.ajax({
       url: 'ajax.php',
       // type: 'default GET (Other values: POST)',
       dataType: 'json',
-      data: {index: crt_id},
+      data: {fun:'corpus', index: crt_id},
     })
     .done(corpusLoaded)
     .fail(function(e) {
@@ -55,12 +55,7 @@ $(document).ready(function() {
   function corpusLoaded(data){
     console.log('corpusLoaded', data);
     
-    // var i = 0;
-    for(key in keys){
-      // console.log('key = '+keys[key]);
-      curr_corpus[keys[key]] = data.corpus[key];
-      // i++;
-    }
+    curr_corpus = data.corpus; 
     console.log('curr_corpus = ', curr_corpus);
 
     displayCorpus();    

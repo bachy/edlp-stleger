@@ -17,6 +17,7 @@
     
     <footer>
       <a href="http://www.encyclopediedelaparole.org">encyclopediedelaparole.org</a>
+      <div id="debug"></div>
     </footer>
   
   </div> <!-- //root -->
