@@ -153,7 +153,7 @@ $(document).ready(function() {
       // if duration is undefined and currentTarget.duration is defined
       if(!dur){
         setTimeout(function(){
-          if(typeof event.currentTarget.duration === "number"){
+          if(typeof event.currentTarget.duration === "number" && event.currentTarget.duration != Infinity){
             dur = event.currentTarget.duration;
             dur_mins=Math.floor(dur/60);
             dur_secs= Math.floor(dur-dur_mins * 60);
