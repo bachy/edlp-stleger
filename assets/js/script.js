@@ -6,7 +6,7 @@ $(document).ready(function() {
   var $last_cartel, $next_cartel;
   var $audio, $progressbar, $duration;
 
-  var curTime, dur, 
+  var curTime, dur = false, 
         cur_mins, cur_secs, 
         dur_mins, dur_secs,
         curtxt, durtxt;
@@ -152,19 +152,18 @@ $(document).ready(function() {
 
       // if duration is undefined and currentTarget.duration is defined
       if(!dur){
-        if(event.currentTarget.duration){
+        if(typeof event.currentTarget.duration === "number"){
           dur = event.currentTarget.duration;
           dur_mins=Math.floor(dur/60);
           dur_secs= Math.floor(dur-dur_mins * 60);
           durtxt =  ' / <span class="duration">'+(dur_mins>9?dur_mins:"0"+dur_mins)+':'+(dur_secs>9?dur_secs:"0"+dur_secs)+'</span>';
         }  
-      }else{
+      }else if(typeof dur === "number"){
         prct = curTime*100/dur;
         $progressbar.width(prct+"%");
       }
       
       $duration.html(curtxt+durtxt);
-      
   }
 
   function onSoundEnded(event){
