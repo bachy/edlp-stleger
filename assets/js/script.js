@@ -5,9 +5,21 @@ $(document).ready(function() {
   var $cartel_wrapper = $('#cartel-wrapper');
   var $last_cartel, $next_cartel;
   var $audio, $progressbar, $duration;
-  var $index = $('<span>').addClass('index').appendTo('#debug');
+
+  var curTime, dur, 
+        cur_mins, cur_secs, 
+        dur_mins, dur_secs;
+  var prct;
+
+  var debug = true; $debug = $('#debug');//, $index = $('<span>').addClass('index').appendTo($debug);
+
 
   function init(){
+    if(!debug){
+      $debug.hide();
+    }
+
+
     initDB();
     // loadCorpus();
   };
@@ -35,7 +47,7 @@ $(document).ready(function() {
 
   function loadCorpus(){
     crt_id ++;
-    $index.text(crt_id);
+    displayDebug("next cartel index = "+crt_id);
     $.ajax({
       url: 'ajax.php',
       // type: 'default GET (Other values: POST)',
@@ -105,21 +117,19 @@ $(document).ready(function() {
   };
 
   function startPlaying(){
-    $audio
-      .on('timeupdate', onSoundTimeUpdate)
-      .on('ended', onSoundEnded)
-      .on('paused', onSoundPaused)
-      .on('error', onSoundError);
+    try{
+      $audio
+        .on('timeupdate', onSoundTimeUpdate)
+        .on('ended', onSoundEnded)
+        .on('paused', onSoundPaused)
+        .on('error', onSoundError);
 
-    $audio[0].play();
-
+      $audio[0].play();
+    }catch(e){
+      displayDebug(e);
+    }
   };
 
-
-  var curTime, dur, 
-        cur_mins, cur_secs, 
-        dur_mins, dur_secs;
-  var prct;
   function onSoundTimeUpdate(event){
       // console.log('timeupdate', event);
       curTime = event.currentTarget.currentTime;
@@ -149,6 +159,13 @@ $(document).ready(function() {
   function onSoundError(event){
     console.log('onSoundError');
     loadCorpus();
+  }
+
+  function displayDebug(msg){
+    var currentTime = new Date()
+    var hours = currentTime.getHours()
+    var minutes = currentTime.getMinutes()
+    $debug.prepend('<p><b>'+hours+' : '+minutes+' | </b>'+msg+'</p>');
   }
 
 
