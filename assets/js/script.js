@@ -20,6 +20,10 @@ $(document).ready(function() {
       $debug.remove();
     }
 
+    $('#close').click(function(event){
+      open(location, '_self').close();
+    });
+
     initDB();
     // loadCorpus();
   };

@@ -22,6 +22,6 @@
     
   </div> <!-- //root -->
   <div id="debug"></div>
-    
+  <div id="close"></div>
 </body>
 </html>
