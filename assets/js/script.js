@@ -159,7 +159,7 @@ $(document).ready(function() {
           // durtxt = dur+typeof dur;
           durtxt =  ' / <span class="duration">'+(dur_mins>9?dur_mins:"0"+dur_mins)+':'+(dur_secs>9?dur_secs:"0"+dur_secs)+'</span>';
         }
-      }else if(typeof dur === "number"){
+      }else if(typeof dur === "number" && dur != Infinity){
         prct = curTime*100/dur;
         $progressbar.width(prct+"%");
       }
