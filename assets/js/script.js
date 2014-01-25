@@ -8,17 +8,17 @@ $(document).ready(function() {
 
   var curTime, dur, 
         cur_mins, cur_secs, 
-        dur_mins, dur_secs;
+        dur_mins, dur_secs,
+        curtxt, durtxt;
   var prct;
 
-  var debug = true; $debug = $('#debug');//, $index = $('<span>').addClass('index').appendTo($debug);
+  var debug = false; $debug = $('#debug');//, $index = $('<span>').addClass('index').appendTo($debug);
 
 
   function init(){
     if(!debug){
-      $debug.hide();
+      $debug.remove();
     }
-
 
     initDB();
     // loadCorpus();
@@ -47,7 +47,10 @@ $(document).ready(function() {
 
   function loadCorpus(){
     crt_id ++;
-    displayDebug("next cartel index = "+crt_id);
+    
+    if(debug)
+      displayDebug("next cartel index = "+crt_id);
+    
     $.ajax({
       url: 'ajax.php',
       // type: 'default GET (Other values: POST)',
@@ -99,7 +102,7 @@ $(document).ready(function() {
       .append($('<h2>').addClass('corpus-title').text(curr_corpus.title))
       .append($('<h3>').addClass('corpus-entry').html(curr_corpus.entry_name))
       .append($('<div>').addClass('corpus-body').html(curr_corpus.body))
-      .append($('<div>').addClass('corpus-info').html(curr_corpus.body))
+      // .append($('<div>').addClass('corpus-info').html(curr_corpus.body))
       .append($duration)
       .append($progress)
       .append($audio);
@@ -120,6 +123,8 @@ $(document).ready(function() {
 
   function startPlaying(){
     try{
+      dur = false;
+      durtxt = "";
       $audio
         .on('timeupdate', onSoundTimeUpdate)
         .on('ended', onSoundEnded)
@@ -135,23 +140,31 @@ $(document).ready(function() {
   function onSoundTimeUpdate(event){
       // console.log('timeupdate', event);
 
-      for(key in event.currentTarget){
-        displayDebug(typeof event.currentTarget[key] +' / '+ key+' : '+event.currentTarget[key]);
-      }
+      if(debug)
+        for(key in event.currentTarget){
+          displayDebug(typeof event.currentTarget[key] +' / '+ key+' : '+event.currentTarget[key]);
+        }
 
       curTime = event.currentTarget.currentTime;
-      dur = event.currentTarget.duration;
-
       cur_mins=Math.floor(curTime/60);
       cur_secs= Math.floor(curTime-cur_mins * 60);
+      curtxt = '<span class="current-time">'+(cur_mins>9?cur_mins:"0"+cur_mins)+':'+(cur_secs>9?cur_secs:"0"+cur_secs)+'</span>';
 
-      dur_mins=Math.floor(dur/60);
-      dur_secs= Math.floor(dur-dur_mins * 60);
-
-      $duration.html('<span class="current-time">'+(cur_mins>9?cur_mins:"0"+cur_mins)+':'+(cur_secs>9?cur_secs:"0"+cur_secs)+'</span> / <span class="duration">'+(dur_mins>9?dur_mins:"0"+dur_mins)+':'+(dur_secs>9?dur_secs:"0"+dur_secs)+'</span>')
+      // if duration is undefined and currentTarget.duration is defined
+      if(!dur){
+        if(event.currentTarget.duration){
+          dur = event.currentTarget.duration;
+          dur_mins=Math.floor(dur/60);
+          dur_secs= Math.floor(dur-dur_mins * 60);
+          durtxt =  ' / <span class="duration">'+(dur_mins>9?dur_mins:"0"+dur_mins)+':'+(dur_secs>9?dur_secs:"0"+dur_secs)+'</span>';
+        }  
+      }else{
+        prct = curTime*100/dur;
+        $progressbar.width(prct+"%");
+      }
       
-      prct = curTime*100/dur;
-      $progressbar.width(prct+"%");
+      $duration.html(curtxt+durtxt);
+      
   }
 
   function onSoundEnded(event){
