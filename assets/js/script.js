@@ -28,6 +28,7 @@ $(document).ready(function() {
   };
 
   function keysLoaded(data){
+    console.log('keysLoaded', data);
     keys = data.corpus;
     console.log('keys = ', keys);
     loadCorpus();
