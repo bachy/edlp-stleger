@@ -136,7 +136,7 @@ $(document).ready(function() {
       // console.log('timeupdate', event);
 
       for(key in event.currentTarget){
-        displayDebug('key = '+key);
+        displayDebug(key+' : '+event.currentTarget[key]);
       }
 
       curTime = event.currentTarget.currentTime;
