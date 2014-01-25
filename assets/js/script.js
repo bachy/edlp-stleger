@@ -97,7 +97,9 @@ $(document).ready(function() {
 
     $next_cartel
       .append($('<h2>').addClass('corpus-title').text(curr_corpus.title))
+      .append($('<h3>').addClass('corpus-entry').html(curr_corpus.entry_name))
       .append($('<div>').addClass('corpus-body').html(curr_corpus.body))
+      .append($('<div>').addClass('corpus-info').html(curr_corpus.body))
       .append($duration)
       .append($progress)
       .append($audio);
@@ -132,6 +134,11 @@ $(document).ready(function() {
 
   function onSoundTimeUpdate(event){
       // console.log('timeupdate', event);
+
+      for(key in event.currentTarget){
+        displayDebug('key = '+key);
+      }
+
       curTime = event.currentTarget.currentTime;
       dur = event.currentTarget.duration;
 
@@ -165,7 +172,8 @@ $(document).ready(function() {
     var currentTime = new Date()
     var hours = currentTime.getHours()
     var minutes = currentTime.getMinutes()
-    $debug.prepend('<p><b>'+hours+' : '+minutes+' | </b>'+msg+'</p>');
+
+    $debug.prepend('<p><b>'+hours+' : '+(minutes < 10 ? "0"+minutes : minutes)+' | </b>'+msg+'</p>');
   }
 
 

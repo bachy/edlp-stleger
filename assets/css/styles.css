@@ -31,7 +31,7 @@ header h1 {
 #cartel-wrapper .cartel {
   position: absolute;
   width: 90%;
-  padding: 0 5%;
+  padding: 10% 5% 0;
   text-align: center;
   -webkit-transition: opacity 1s linear;
   -moz-transition: opacity 1s linear;
@@ -82,7 +82,7 @@ footer a {
   position: fixed;
   bottom: 0;
   right: 0;
-  width: 200px;
+  width: 300px;
   height: 400px;
   overflow-y: auto;
   font-size: 0.65em;
