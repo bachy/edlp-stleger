@@ -128,13 +128,18 @@ $(document).ready(function() {
         $last_cartel.remove();
     }, 1500);
 
+    dur = curr_corpus.mp3_duration_secs;
+    // dur_mins=Math.floor(dur/60);
+    // dur_secs= Math.floor(dur-dur_mins * 60);
+    // durtxt = dur+typeof dur;
+    durtxt =  ' / <span class="duration">'+curr_corpus.mp3_duration_string+'</span>';
+
+
     setTimeout(startPlaying, 1000);
   };
 
   function startPlaying(){
     try{
-      dur = false;
-      durtxt = "";
       $audio
         .on('timeupdate', onSoundTimeUpdate)
         .on('ended', onSoundEnded)
@@ -143,12 +148,15 @@ $(document).ready(function() {
 
       $audio[0].play();
     }catch(e){
-      displayDebug(e);
+      if(debug)
+        displayDebug(e);
+
+      loadCorpus();
     }
   };
 
   function onSoundTimeUpdate(event){
-      // console.log('timeupdate', event);
+      console.log('timeupdate', dur);
 
       // if(debug)
       //   for(key in event.currentTarget){
@@ -158,21 +166,21 @@ $(document).ready(function() {
       curTime = event.currentTarget.currentTime;
       cur_mins=Math.floor(curTime/60);
       cur_secs= Math.floor(curTime-cur_mins * 60);
-      curtxt = '<span class="current-time">'+(cur_mins>9?cur_mins:"0"+cur_mins)+':'+(cur_secs>9?cur_secs:"0"+cur_secs)+'</span>';
+      curtxt = '<span class="current-time">'+cur_mins+':'+(cur_secs>9?cur_secs:"0"+cur_secs)+'</span>';
 
       // if duration is undefined and currentTarget.duration is defined
-      if(!dur){
-        if(typeof event.currentTarget.duration === "number" && event.currentTarget.duration != Infinity){
-          dur = event.currentTarget.duration;
-          dur_mins=Math.floor(dur/60);
-          dur_secs= Math.floor(dur-dur_mins * 60);
-          // durtxt = dur+typeof dur;
-          durtxt =  ' / <span class="duration">'+(dur_mins>9?dur_mins:"0"+dur_mins)+':'+(dur_secs>9?dur_secs:"0"+dur_secs)+'</span>';
-        }
-      }else if(typeof dur === "number" && dur != Infinity){
+      // if(!dur){
+        // if(typeof event.currentTarget.duration === "number" && event.currentTarget.duration != Infinity){
+          // dur = event.currentTarget.duration;
+          // dur_mins=Math.floor(dur/60);
+          // dur_secs= Math.floor(dur-dur_mins * 60);
+          // // durtxt = dur+typeof dur;
+          // durtxt =  ' / <span class="duration">'+(dur_mins>9?dur_mins:"0"+dur_mins)+':'+(dur_secs>9?dur_secs:"0"+dur_secs)+'</span>';
+        // }
+      // }else if(typeof dur === "number" && dur != Infinity){
         prct = curTime*100/dur;
         $progressbar.width(prct+"%");
-      }
+      // }
       
       $duration.html(curtxt+durtxt);
   }

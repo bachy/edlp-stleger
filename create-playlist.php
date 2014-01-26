@@ -1,5 +1,6 @@
 <?php 
 
+require_once('getid3/getid3.php');
 
 // if(!ini_set('default_socket_timeout',    15)) 
 //   $ret['errors'][] = "unable to change socket timeout";
@@ -49,10 +50,23 @@ if (($nodes_file_csv = fopen($drive_csv_url_s1, "r")) !== FALSE && ($entrees_fil
     foreach ($list as $wit => $n) {
       if(isset($nodes[$n[0]])){
         $track = $nodes[$n[0]];
-        $track['tid'] = $n[1];
-        $track['order'] = $n[2];
-        $track['entry_name'] = $n[3];
-        $playlist[] = $track;  
+
+        $mp3file = 'assets/audio/'.$track['mp3_filename'];
+
+        if(file_exists($mp3file)){
+          $getID3 = new getID3;
+          $ThisFileInfo = $getID3->analyze($mp3file);
+          getid3_lib::CopyTagsToComments($ThisFileInfo);
+          $track['mp3_duration_secs'] = isset($ThisFileInfo['playtime_seconds']) ? $ThisFileInfo['playtime_seconds'] : 0;
+          $track['mp3_duration_string'] = isset($ThisFileInfo['playtime_string']) ? $ThisFileInfo['playtime_string'] : 0;
+
+          $track['tid'] = $n[1];
+          $track['order'] = $n[2];
+          $track['entry_name'] = $n[3];
+          
+          $playlist[] = $track;  
+        } 
+          
       }
     }
   }
