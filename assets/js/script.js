@@ -37,15 +37,15 @@ $(document).ready(function() {
     })
     .done(dbInited)
     .fail(function(e) {
-      console.log("error", e);
+//console.log("error", e);
     })
     .always(function() {
-      console.log("complete");
+//console.log("complete");
     });
   };
 
   function dbInited(data){
-    console.log('dbInited', data);
+//console.log('dbInited', data);
     count = data.count;
     loadCorpus();
   };
@@ -69,19 +69,19 @@ $(document).ready(function() {
     })
     .done(corpusLoaded)
     .fail(function(e) {
-      console.log("error", e);
+//console.log("error", e);
     })
     .always(function() {
-      console.log("complete");
+//console.log("complete");
     });
     
   };
 
   function corpusLoaded(data){
-    console.log('corpusLoaded', data);
+//console.log('corpusLoaded', data);
     
     curr_corpus = data.corpus; 
-    console.log('curr_corpus = ', curr_corpus);
+//console.log('curr_corpus = ', curr_corpus);
 
     displayCorpus();    
 
@@ -156,7 +156,7 @@ $(document).ready(function() {
   };
 
   function onSoundTimeUpdate(event){
-      console.log('timeupdate', dur);
+      // console.log('timeupdate', dur);
 
       // if(debug)
       //   for(key in event.currentTarget){
@@ -186,16 +186,16 @@ $(document).ready(function() {
   }
 
   function onSoundEnded(event){
-     console.log('onSoundEnded');
+//console.log('onSoundEnded');
      loadCorpus();
   }
 
   function onSoundPaused(event){
-    console.log('onSoundPaused');
+//console.log('onSoundPaused');
     loadCorpus();
   }
   function onSoundError(event){
-    console.log('onSoundError');
+//console.log('onSoundError');
     loadCorpus();
   }
 
