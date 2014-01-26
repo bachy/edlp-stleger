@@ -18,10 +18,11 @@
     
     <footer>
       <a href="http://www.encyclopediedelaparole.org">encyclopediedelaparole.org</a>
+      <div class="index"></div>
     </footer>
     
+    <div id="close"></div>
   </div> <!-- //root -->
   <div id="debug"></div>
-  <div id="close"></div>
 </body>
 </html>

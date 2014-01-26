@@ -56,8 +56,10 @@ $(document).ready(function() {
     if(crt_id > 753)
       crt_id = 0;
     
-    if(debug)
-      displayDebug("next cartel index = "+crt_id);
+    // if(debug)
+      // displayDebug("next cartel index = "+crt_id);
+
+    $('footer .index').text(crt_id);
     
     $.ajax({
       url: 'ajax.php',

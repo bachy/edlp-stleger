@@ -73,10 +73,16 @@ footer {
   height: 40px;
   text-align: center;
   font-size: 0.65em;
+  position: relative;
 }
 footer a {
   text-decoration: none;
   color: inherit;
+}
+footer .index {
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
 }
 #debug {
   position: fixed;
