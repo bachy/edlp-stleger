@@ -108,3 +108,7 @@ footer .index {
   background-color: red;
   cusror: pointer;
 }
+.error {
+  font-size: 2em;
+  color: red;
+}

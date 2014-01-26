@@ -36,12 +36,18 @@ $(document).ready(function() {
       data: {fun:'init'},
     })
     .done(dbInited)
-    .fail(function(e) {
-//console.log("error", e);
-    })
+    .fail(dbInitFailed)
     .always(function() {
 //console.log("complete");
     });
+  };
+
+  function dbInitFailed(event){
+    $cartel_wrapper.append($('<div class="error">init function failed !! we will retry in 10 secs</div>'));
+    setTimeout(function(){
+      $cartel_wrapper.html('');
+      initDB();
+    }, 10000);
   };
 
   function dbInited(data){
@@ -68,26 +74,28 @@ $(document).ready(function() {
       data: {fun:'corpus', index: crt_id},
     })
     .done(corpusLoaded)
-    .fail(function(e) {
-//console.log("error", e);
-    })
-    .always(function() {
-//console.log("complete");
-    });
+    .fail(corpusFailed);
+//     .always(function() {
+// //console.log("complete");
+//     });
     
   };
 
+  function corpusFailed(event){
+    $cartel_wrapper.append($('<div class="error">corpus loading failed !! we will retry in 10 secs</div>'));
+    setTimeout(function(){
+      $cartel_wrapper.html('');
+      loadCorpus();
+    }, 10000);
+  };
+
   function corpusLoaded(data){
-//console.log('corpusLoaded', data);
+  //console.log('corpusLoaded', data);
     
     curr_corpus = data.corpus; 
-//console.log('curr_corpus = ', curr_corpus);
+    //console.log('curr_corpus = ', curr_corpus);
 
-    displayCorpus();    
-
-    // setTimeout(function(){
-    //   loadCorpus();
-    // }, 6000);
+    displayCorpus();
   };
 
   function displayCorpus(){
@@ -151,52 +159,51 @@ $(document).ready(function() {
       if(debug)
         displayDebug(e);
 
-      loadCorpus();
+      startPlayingFailed();
     }
   };
 
+  function startPlayingFailed(){
+    $cartel_wrapper.append($('<div class="error">startPlaying function failed !! we will retry in 10 secs</div>'));
+    setTimeout(function(){
+      $cartel_wrapper.html('');
+      loadCorpus();
+    }, 10000);
+  };
+
+
   function onSoundTimeUpdate(event){
       // console.log('timeupdate', dur);
+      try{
+        curTime = event.currentTarget.currentTime;
+        cur_mins=Math.floor(curTime/60);
+        cur_secs= Math.floor(curTime-cur_mins * 60);
+        curtxt = '<span class="current-time">'+cur_mins+':'+(cur_secs>9?cur_secs:"0"+cur_secs)+'</span>';
 
-      // if(debug)
-      //   for(key in event.currentTarget){
-      //     displayDebug(typeof event.currentTarget[key] +' / '+ key+' : '+event.currentTarget[key]);
-      //   }
-
-      curTime = event.currentTarget.currentTime;
-      cur_mins=Math.floor(curTime/60);
-      cur_secs= Math.floor(curTime-cur_mins * 60);
-      curtxt = '<span class="current-time">'+cur_mins+':'+(cur_secs>9?cur_secs:"0"+cur_secs)+'</span>';
-
-      // if duration is undefined and currentTarget.duration is defined
-      // if(!dur){
-        // if(typeof event.currentTarget.duration === "number" && event.currentTarget.duration != Infinity){
-          // dur = event.currentTarget.duration;
-          // dur_mins=Math.floor(dur/60);
-          // dur_secs= Math.floor(dur-dur_mins * 60);
-          // // durtxt = dur+typeof dur;
-          // durtxt =  ' / <span class="duration">'+(dur_mins>9?dur_mins:"0"+dur_mins)+':'+(dur_secs>9?dur_secs:"0"+dur_secs)+'</span>';
-        // }
-      // }else if(typeof dur === "number" && dur != Infinity){
         prct = curTime*100/dur;
         $progressbar.width(prct+"%");
-      // }
-      
-      $duration.html(curtxt+durtxt);
+        
+        $duration.html(curtxt+durtxt);
+      }catch(e){
+        $cartel_wrapper.append($('<div class="error">on sound time update error !!</div>'));
+      }
   }
 
   function onSoundEnded(event){
-//console.log('onSoundEnded');
+    //console.log('onSoundEnded');
      loadCorpus();
   }
 
   function onSoundPaused(event){
-//console.log('onSoundPaused');
+    //console.log('onSoundPaused');
     loadCorpus();
   }
   function onSoundError(event){
-//console.log('onSoundError');
-    loadCorpus();
+    $cartel_wrapper.append($('<div class="error">sound error !! we will retry in 10 secs</div>'));
+    setTimeout(function(){
+      $cartel_wrapper.html('');
+      loadCorpus();
+    }, 5000);
   }
 
   function displayDebug(msg){
