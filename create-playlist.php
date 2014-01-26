@@ -2,14 +2,8 @@
 
 require_once('getid3/getid3.php');
 
-// if(!ini_set('default_socket_timeout',    15)) 
-//   $ret['errors'][] = "unable to change socket timeout";
 
-# if we have internet and we can connect to drive spreadsheet
-// sheet 1
-// https://docs.google.com/spreadsheet/pub?key=0AouWOA7wSzR-dG14ZUFuc2t5RlR4dk1DdjZKZUJtR1E&single=true&gid=0&output=csv
-// sheet 2
-// https://docs.google.com/spreadsheet/pub?key=0AouWOA7wSzR-dG14ZUFuc2t5RlR4dk1DdjZKZUJtR1E&single=true&gid=1&output=csv
+$max_duration = 0;
 
 // $drive_csv_url_s1 = "https://docs.google.com/spreadsheet/pub?key=0AouWOA7wSzR-dG14ZUFuc2t5RlR4dk1DdjZKZUJtR1E&single=true&gid=0&output=csv";
 // $drive_csv_url_s2 = "https://docs.google.com/spreadsheet/pub?key=0AouWOA7wSzR-dG14ZUFuc2t5RlR4dk1DdjZKZUJtR1E&single=true&gid=1&output=csv";
@@ -64,7 +58,11 @@ if (($nodes_file_csv = fopen($drive_csv_url_s1, "r")) !== FALSE && ($entrees_fil
           $track['order'] = $n[2];
           $track['entry_name'] = $n[3];
           
-          $playlist[] = $track;  
+          $playlist[] = $track;
+
+          $max_duration = max($max_duration, $track['mp3_duration_secs']);  
+        }else{
+          echo $track['title']." | file ".$mp3file." does not exists !\n";          
         } 
           
       }
@@ -84,5 +82,7 @@ if (($nodes_file_csv = fopen($drive_csv_url_s1, "r")) !== FALSE && ($entrees_fil
   fclose($playlist_files);
 }
 
+echo "playlist created \n";
+echo "max_duration = ".$max_duration."\n";
 
 ?>

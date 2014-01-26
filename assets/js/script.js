@@ -14,6 +14,7 @@ $(document).ready(function() {
 
   var debug = false; $debug = $('#debug');//, $index = $('<span>').addClass('index').appendTo($debug);
 
+  var reload_timer;
 
   function init(){
     if(!debug){
@@ -51,15 +52,18 @@ $(document).ready(function() {
   };
 
   function dbInited(data){
-//console.log('dbInited', data);
+    //console.log('dbInited', data);
     count = data.count;
     loadCorpus();
   };
 
   function loadCorpus(){
+    
+    clearTimeout(reload_timer);
+
     crt_id ++;
 
-    if(crt_id > 753)
+    if(crt_id == count)
       crt_id = 0;
     
     // if(debug)
@@ -75,10 +79,6 @@ $(document).ready(function() {
     })
     .done(corpusLoaded)
     .fail(corpusFailed);
-//     .always(function() {
-// //console.log("complete");
-//     });
-    
   };
 
   function corpusFailed(event){
@@ -99,6 +99,9 @@ $(document).ready(function() {
   };
 
   function displayCorpus(){
+
+    reload_timer = setTimeout(forceNextCorpus, 350*1000);
+
     $last_cartel = $next_cartel;
     $next_cartel = $('<div>')
       .addClass('cartel')//.addClass('standby')
@@ -134,7 +137,7 @@ $(document).ready(function() {
     setTimeout(function(){
       if($last_cartel)
         $last_cartel.remove();
-    }, 1500);
+    }, 3000);
 
     dur = curr_corpus.mp3_duration_secs;
     // dur_mins=Math.floor(dur/60);
@@ -142,8 +145,11 @@ $(document).ready(function() {
     // durtxt = dur+typeof dur;
     durtxt =  ' / <span class="duration">'+curr_corpus.mp3_duration_string+'</span>';
 
-
     setTimeout(startPlaying, 1000);
+  };
+
+  function forceNextCorpus(){
+    loadCorpus();
   };
 
   function startPlaying(){
