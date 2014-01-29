@@ -39,7 +39,7 @@ $(document).ready(function() {
     .done(dbInited)
     .fail(dbInitFailed)
     .always(function() {
-//console.log("complete");
+console.log("complete");
     });
   };
 
@@ -52,7 +52,7 @@ $(document).ready(function() {
   };
 
   function dbInited(data){
-    //console.log('dbInited', data);
+    console.log('dbInited', data);
     count = data.count;
     loadCorpus();
   };
@@ -90,10 +90,10 @@ $(document).ready(function() {
   };
 
   function corpusLoaded(data){
-  //console.log('corpusLoaded', data);
+  console.log('corpusLoaded', data);
     
     curr_corpus = data.corpus; 
-    //console.log('curr_corpus = ', curr_corpus);
+    console.log('curr_corpus = ', curr_corpus);
 
     displayCorpus();
   };
@@ -196,12 +196,12 @@ $(document).ready(function() {
   }
 
   function onSoundEnded(event){
-    //console.log('onSoundEnded');
+    console.log('onSoundEnded');
      loadCorpus();
   }
 
   function onSoundPaused(event){
-    //console.log('onSoundPaused');
+    console.log('onSoundPaused');
     loadCorpus();
   }
   function onSoundError(event){
