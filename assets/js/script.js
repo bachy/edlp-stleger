@@ -156,9 +156,8 @@ $(document).ready(function() {
   function startPlaying(){
     console.log('startPlaying');
 
-    reload_timer = setTimeout(forceNextCorpus, dur*1000);
-    // reload_timer = setTimeout(forceNextCorpus, 10*1000);
-
+    // reload_timer = setTimeout(forceNextCorpus, (dur+2)*1000);
+    reload_timer = setTimeout(forceNextCorpus, 10*1000);
 
     try{
       $audio
@@ -185,7 +184,6 @@ $(document).ready(function() {
     }, 10000);
   };
 
-
   function onSoundTimeUpdate(event){
       console.log('timeupdate', dur);
       try{
@@ -201,17 +199,18 @@ $(document).ready(function() {
       }catch(e){
         $cartel_wrapper.append($('<div class="error">on sound time update error !!</div>'));
       }
-  }
+  };
 
   function onSoundEnded(event){
     console.log('onSoundEnded');
      loadCorpus();
-  }
+  };
 
   function onSoundPaused(event){
     console.log('onSoundPaused');
     loadCorpus();
-  }
+  };
+
   function onSoundError(event){
     console.log("onSoundError");
     $cartel_wrapper.append($('<div class="error">sound error !! we will retry in 10 secs</div>'));
@@ -219,7 +218,7 @@ $(document).ready(function() {
       $cartel_wrapper.html('');
       loadCorpus();
     }, 5000);
-  }
+  };
 
   function displayDebug(msg){
     var currentTime = new Date()
@@ -227,8 +226,7 @@ $(document).ready(function() {
     var minutes = currentTime.getMinutes()
 
     $debug.prepend('<p><b>'+hours+' : '+(minutes < 10 ? "0"+minutes : minutes)+' | </b>'+msg+'</p>');
-  }
-
+  };
 
   init();
 });
