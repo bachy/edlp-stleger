@@ -38,14 +38,22 @@ if (($nodes_file_csv = fopen($drive_csv_url_s1, "r")) !== FALSE && ($entrees_fil
   // $ret['entries'] = $entries;
 
   # TODO :  i'll have to sort the entries order
-
+  $playlist = [];
   foreach ($entries as $tid => $list) {
     ksort($list);
+    echo $tid."\n";
     foreach ($list as $wit => $n) {
+      
+      echo "- - - ".$wit."\n";
+
       if(isset($nodes[$n[0]])){
         $track = $nodes[$n[0]];
 
+        // if(!isset($track['mp3_filename']))
+        //   continue;
+
         $mp3file = 'assets/audio/'.$track['mp3_filename'];
+        echo "- - - - - ".$mp3file."\n";
 
         if(file_exists($mp3file)){
           $getID3 = new getID3;
@@ -70,6 +78,12 @@ if (($nodes_file_csv = fopen($drive_csv_url_s1, "r")) !== FALSE && ($entrees_fil
   }
 
   // $ret['count'] = count($playlist);
+
+  $fp_csv = fopen('assets/data/print_list.csv', 'w');
+  foreach ($playlist as $fields) {
+      fputcsv($fp_csv, $fields);
+  }
+  fclose($fp_csv);
 
   $playlist_str = serialize($playlist);
   $playlist_files = fopen('assets/data/playlist.txt', 'r+');

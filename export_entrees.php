@@ -18,7 +18,7 @@ $nodes_query = sprintf("SELECT tn.nid, tn.tid, tn.weight_in_tid, td.name FROM te
 // Perform Query
 $nodes_results = mysql_query($nodes_query);
 
-$entrees_csv = fopen('assets/data/entrees.csv', 'w');
+$entrees_csv = fopen('assets/data/export-entrees.csv', 'w');
 
 $keys = array('nid', 'tid', 'weight_in_tid', "name");
 
@@ -31,6 +31,8 @@ while ($row = mysql_fetch_array($nodes_results)) {
   foreach ($keys as $key) {
     $node[$key] = $row[$key];
   }
+
+  echo $node['nid']."\n";
   fputcsv($entrees_csv, $node); 
 }
 
