@@ -151,7 +151,7 @@ $(document).ready(function() {
   };
 
   function forceNextCorpus(){
-    console.log('startPlaying');
+    console.log('forceNextCorpus');
     $audio[0].pause();
     forced = true;
     clearTimeout(reload_timer);
@@ -166,9 +166,8 @@ $(document).ready(function() {
 
 
     setTimeout(function(){
-      forceNextCorpus();      
-
-    });
+      forceNextCorpus();
+    }, 5);
 
     try{
       $audio
