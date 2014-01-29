@@ -167,7 +167,7 @@ $(document).ready(function() {
 
     setTimeout(function(){
       forceNextCorpus();
-    }, 5*1000);
+    }, 10*1000);
 
     try{
       $audio
