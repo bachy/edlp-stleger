@@ -14,7 +14,7 @@ $(document).ready(function() {
 
   var debug = false; $debug = $('#debug');//, $index = $('<span>').addClass('index').appendTo($debug);
 
-  var reload_timer;
+  var reload_timer = false;
 
   function init(){
     if(!debug){
@@ -58,12 +58,11 @@ $(document).ready(function() {
   function loadCorpus(){
     console.log('- - - - - -  loadCorpus - - - - - -');
 
-    clearTimeout(reload_timer);
+    // crt_id ++;
+    // if(crt_id == count)
+    //   crt_id = 0;
 
-    crt_id ++;
-
-    if(crt_id == count)
-      crt_id = 0;
+    crt_id = Math.floor(Math.random()*count);
     
     // if(debug)
       // displayDebug("next cartel index = "+crt_id);
@@ -150,6 +149,7 @@ $(document).ready(function() {
 
   function forceNextCorpus(){
     console.log('startPlaying');
+    $audio[0].pause();
     loadCorpus();
   };
 
@@ -187,7 +187,19 @@ $(document).ready(function() {
   function onSoundTimeUpdate(event){
       console.log('timeupdate', dur);
       try{
+
+        // reset the if not launched timer
+        if(reload_timer){
+          clearTimeout(reload_timer);
+          reload_timer = false;
+        }
+
         curTime = event.currentTarget.currentTime;
+
+        // debug
+        if (curTime > 5)
+          forceNextCorpus();
+
         cur_mins=Math.floor(curTime/60);
         cur_secs= Math.floor(curTime-cur_mins * 60);
         curtxt = '<span class="current-time">'+cur_mins+':'+(cur_secs>9?cur_secs:"0"+cur_secs)+'</span>';
@@ -197,7 +209,8 @@ $(document).ready(function() {
         
         $duration.html(curtxt+durtxt);
       }catch(e){
-        $cartel_wrapper.append($('<div class="error">on sound time update error !!</div>'));
+        // $cartel_wrapper.append($('<div class="error">on sound time update error !!</div>'));
+        forceNextCorpus();
       }
   };
 
