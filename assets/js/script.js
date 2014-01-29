@@ -14,7 +14,7 @@ $(document).ready(function() {
 
   var debug = false; $debug = $('#debug');//, $index = $('<span>').addClass('index').appendTo($debug);
 
-  var reload_timer = false;
+  var forcenext_timer = false;
   var forced = false;
 
   function init(){
@@ -59,15 +59,13 @@ $(document).ready(function() {
   function loadCorpus(){
     console.log('- - - - - -  loadCorpus - - - - - -');
 
-    // crt_id ++;
-    // if(crt_id == count)
-    //   crt_id = 0;
+    crt_id ++;
+    if(crt_id == count)
+      crt_id = 0;
 
-    crt_id = Math.floor(Math.random()*count);
+    // debug
+    // crt_id = Math.floor(Math.random()*count);
     
-    // if(debug)
-      // displayDebug("next cartel index = "+crt_id);
-
     $('footer .index').text(crt_id);
     
     $.ajax({
@@ -154,20 +152,20 @@ $(document).ready(function() {
     console.log('forceNextCorpus');
     $audio[0].pause();
     forced = true;
-    clearTimeout(reload_timer);
+    clearTimeout(forcenext_timer);
     loadCorpus();
   };
 
   function startPlaying(){
     console.log('startPlaying');
 
-    // reload_timer = setTimeout(forceNextCorpus, (dur+2)*1000);
-    reload_timer = setTimeout(forceNextCorpus, 20*1000);
+    // forcenext_timer = setTimeout(forceNextCorpus, (dur+2)*1000);
+    forcenext_timer = setTimeout(forceNextCorpus, 20*1000);
 
     // debug
-    setTimeout(function(){
-      forceNextCorpus();
-    }, 10*1000);
+    // setTimeout(function(){
+    //   forceNextCorpus();
+    // }, 10*1000);
 
     try{
       $audio
@@ -205,10 +203,10 @@ $(document).ready(function() {
         curtxt = '<span class="current-time">'+cur_mins+':'+(cur_secs>9?cur_secs:"0"+cur_secs)+'</span>';
 
         // reset the if not launched timer
-        if(reload_timer && curTime > 2){
-          console.log("clear reload_timer");
-          clearTimeout(reload_timer);
-          reload_timer = false;
+        if(forcenext_timer && curTime > 2){
+          console.log("clear forcenext_timer");
+          clearTimeout(forcenext_timer);
+          forcenext_timer = false;
         }
 
         prct = curTime*100/dur;
