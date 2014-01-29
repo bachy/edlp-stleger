@@ -38,9 +38,7 @@ $(document).ready(function() {
     })
     .done(dbInited)
     .fail(dbInitFailed)
-    .always(function() {
-console.log("complete");
-    });
+    .always(function() {console.log("init DB completed");});
   };
 
   function dbInitFailed(event){
@@ -58,7 +56,8 @@ console.log("complete");
   };
 
   function loadCorpus(){
-    
+    console.log('- - - - - -  loadCorpus - - - - - -');
+
     clearTimeout(reload_timer);
 
     crt_id ++;
@@ -78,19 +77,21 @@ console.log("complete");
       data: {fun:'corpus', index: crt_id},
     })
     .done(corpusLoaded)
-    .fail(corpusFailed);
+    .fail(corpusFailed)
+    .always(function() {console.log("load corpus completed");});
   };
 
   function corpusFailed(event){
-    $cartel_wrapper.append($('<div class="error">corpus loading failed !! we will retry in 10 secs</div>'));
+    console.log('corpusFailed');
+    $cartel_wrapper.append($('<div class="error">corpus loading failed !! we will retry in 5 secs</div>'));
     setTimeout(function(){
       $cartel_wrapper.html('');
       loadCorpus();
-    }, 10000);
+    }, 5000);
   };
 
   function corpusLoaded(data){
-  console.log('corpusLoaded', data);
+    console.log('corpusLoaded', data);
     
     curr_corpus = data.corpus; 
     console.log('curr_corpus = ', curr_corpus);
@@ -99,8 +100,7 @@ console.log("complete");
   };
 
   function displayCorpus(){
-
-    reload_timer = setTimeout(forceNextCorpus, 350*1000);
+    console.log('displayCorpus');
 
     $last_cartel = $next_cartel;
     $next_cartel = $('<div>')
@@ -145,14 +145,21 @@ console.log("complete");
     // durtxt = dur+typeof dur;
     durtxt =  ' / <span class="duration">'+curr_corpus.mp3_duration_string+'</span>';
 
-    setTimeout(startPlaying, 1000);
+    setTimeout(startPlaying, 800);
   };
 
   function forceNextCorpus(){
+    console.log('startPlaying');
     loadCorpus();
   };
 
   function startPlaying(){
+    console.log('startPlaying');
+
+    reload_timer = setTimeout(forceNextCorpus, dur*1000);
+    // reload_timer = setTimeout(forceNextCorpus, 10*1000);
+
+
     try{
       $audio
         .on('timeupdate', onSoundTimeUpdate)
@@ -170,6 +177,7 @@ console.log("complete");
   };
 
   function startPlayingFailed(){
+    console.log('startPlayingFailed');
     $cartel_wrapper.append($('<div class="error">startPlaying function failed !! we will retry in 10 secs</div>'));
     setTimeout(function(){
       $cartel_wrapper.html('');
@@ -179,7 +187,7 @@ console.log("complete");
 
 
   function onSoundTimeUpdate(event){
-      // console.log('timeupdate', dur);
+      console.log('timeupdate', dur);
       try{
         curTime = event.currentTarget.currentTime;
         cur_mins=Math.floor(curTime/60);
@@ -205,6 +213,7 @@ console.log("complete");
     loadCorpus();
   }
   function onSoundError(event){
+    console.log("onSoundError");
     $cartel_wrapper.append($('<div class="error">sound error !! we will retry in 10 secs</div>'));
     setTimeout(function(){
       $cartel_wrapper.html('');
