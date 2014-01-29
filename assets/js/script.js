@@ -162,9 +162,9 @@ $(document).ready(function() {
     console.log('startPlaying');
 
     // reload_timer = setTimeout(forceNextCorpus, (dur+2)*1000);
-    reload_timer = setTimeout(forceNextCorpus, 10*1000);
+    reload_timer = setTimeout(forceNextCorpus, 20*1000);
 
-
+    // debug
     setTimeout(function(){
       forceNextCorpus();
     }, 10*1000);
@@ -205,7 +205,7 @@ $(document).ready(function() {
         curtxt = '<span class="current-time">'+cur_mins+':'+(cur_secs>9?cur_secs:"0"+cur_secs)+'</span>';
 
         // reset the if not launched timer
-        if(reload_timer && curTime > 3){
+        if(reload_timer && curTime > 2){
           console.log("clear reload_timer");
           clearTimeout(reload_timer);
           reload_timer = false;
@@ -233,9 +233,9 @@ $(document).ready(function() {
 
   function onSoundError(event){
     console.log("onSoundError");
-    $cartel_wrapper.append($('<div class="error">sound error !! we will retry in 10 secs</div>'));
+    // $cartel_wrapper.append($('<div class="error">sound error !! we will retry in 10 secs</div>'));
     setTimeout(function(){
-      $cartel_wrapper.html('');
+      // $cartel_wrapper.html('');
       loadCorpus();
     }, 5000);
   };
