@@ -15,6 +15,7 @@ $(document).ready(function() {
   var debug = false; $debug = $('#debug');//, $index = $('<span>').addClass('index').appendTo($debug);
 
   var reload_timer = false;
+  var forced = false;
 
   function init(){
     if(!debug){
@@ -101,11 +102,11 @@ $(document).ready(function() {
   function displayCorpus(){
     console.log('displayCorpus');
 
-    $last_cartel = $next_cartel;
+    // $last_cartel = $next_cartel;
     $next_cartel = $('<div>')
       .addClass('cartel')//.addClass('standby')
-      .attr('id', 'cartel-'+crt_id)
-      .appendTo($cartel_wrapper);
+      .attr('id', 'cartel-'+crt_id);
+      // .appendTo($cartel_wrapper);
     
     var mp3path = '/assets/audio/'+curr_corpus.mp3_filename;
     var oggpath = mp3path.replace('.mp3', '.ogg');
@@ -128,15 +129,15 @@ $(document).ready(function() {
       .append($audio);
 
     setTimeout(function(){
-      if($last_cartel)
-        $last_cartel.removeClass('in').addClass('out');
+    //   if($last_cartel)
+    //     $last_cartel.removeClass('in').addClass('out');
       $next_cartel.addClass('in');
     }, 5);
     
-    setTimeout(function(){
-      if($last_cartel)
-        $last_cartel.remove();
-    }, 3000);
+    // setTimeout(function(){
+    //   if($last_cartel)
+    //     $last_cartel.remove();
+    // }, 3000);
 
     dur = curr_corpus.mp3_duration_secs;
     // dur_mins=Math.floor(dur/60);
@@ -144,12 +145,16 @@ $(document).ready(function() {
     // durtxt = dur+typeof dur;
     durtxt =  ' / <span class="duration">'+curr_corpus.mp3_duration_string+'</span>';
 
+    $cartel_wrapper.empty().append($next_cartel);
+
     setTimeout(startPlaying, 800);
   };
 
   function forceNextCorpus(){
     console.log('startPlaying');
     $audio[0].pause();
+    forced = true;
+    clearTimeout(reload_timer);
     loadCorpus();
   };
 
@@ -159,6 +164,12 @@ $(document).ready(function() {
     // reload_timer = setTimeout(forceNextCorpus, (dur+2)*1000);
     reload_timer = setTimeout(forceNextCorpus, 10*1000);
 
+
+    setTimeout(function(){
+      forceNextCorpus();      
+
+    });
+
     try{
       $audio
         .on('timeupdate', onSoundTimeUpdate)
@@ -166,6 +177,7 @@ $(document).ready(function() {
         .on('paused', onSoundPaused)
         .on('error', onSoundError);
 
+      forced = false;
       $audio[0].play();
     }catch(e){
       if(debug)
@@ -186,32 +198,28 @@ $(document).ready(function() {
 
   function onSoundTimeUpdate(event){
       console.log('timeupdate', dur);
-      try{
-
-        // reset the if not launched timer
-        if(reload_timer){
-          clearTimeout(reload_timer);
-          reload_timer = false;
-        }
+      // try{
 
         curTime = event.currentTarget.currentTime;
-
-        // debug
-        if (curTime > 5)
-          forceNextCorpus();
-
         cur_mins=Math.floor(curTime/60);
         cur_secs= Math.floor(curTime-cur_mins * 60);
         curtxt = '<span class="current-time">'+cur_mins+':'+(cur_secs>9?cur_secs:"0"+cur_secs)+'</span>';
 
+        // reset the if not launched timer
+        if(reload_timer && > curTime > 3){
+          console.log("clear reload_timer");
+          clearTimeout(reload_timer);
+          reload_timer = false;
+        }
+        
         prct = curTime*100/dur;
         $progressbar.width(prct+"%");
         
         $duration.html(curtxt+durtxt);
-      }catch(e){
-        // $cartel_wrapper.append($('<div class="error">on sound time update error !!</div>'));
-        forceNextCorpus();
-      }
+      // }catch(e){
+      //   // $cartel_wrapper.append($('<div class="error">on sound time update error !!</div>'));
+      //   forceNextCorpus();
+      // }
   };
 
   function onSoundEnded(event){
