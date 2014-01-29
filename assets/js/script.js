@@ -206,12 +206,12 @@ $(document).ready(function() {
         curtxt = '<span class="current-time">'+cur_mins+':'+(cur_secs>9?cur_secs:"0"+cur_secs)+'</span>';
 
         // reset the if not launched timer
-        if(reload_timer && > curTime > 3){
+        if(reload_timer && curTime > 3){
           console.log("clear reload_timer");
           clearTimeout(reload_timer);
           reload_timer = false;
         }
-        
+
         prct = curTime*100/dur;
         $progressbar.width(prct+"%");
         
