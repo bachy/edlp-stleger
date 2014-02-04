@@ -7,11 +7,12 @@ html {
 body {
   position: relative;
   background-color: #fff;
+  overflow: hidden;
 }
 #root {
   position: relative;
-  width: 1000px;
-  height: 700px;
+  width: 1920px;
+  height: 1080px;
   margin: 0 auto;
   background-color: #fff;
 }
@@ -25,13 +26,13 @@ header h1 {
   font-size: 1em;
 }
 #cartel-wrapper {
-  height: 580px;
+  height: 950px;
   position: relative;
 }
 #cartel-wrapper .cartel {
   position: absolute;
   width: 90%;
-  padding: 10% 5% 0;
+  padding: 15% 5% 0;
   text-align: center;
   -webkit-transition: opacity 1s linear;
   -moz-transition: opacity 1s linear;
@@ -46,10 +47,10 @@ header h1 {
   opacity: 0;
 }
 #cartel-wrapper .corpus-title {
-  font-size: 2.3em;
+  font-size: 3em;
 }
 #cartel-wrapper .corpus-body {
-  font-size: 1.5em;
+  font-size: 1.7em;
 }
 #cartel-wrapper .progress {
   margin: 4em 0;

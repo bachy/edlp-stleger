@@ -17,7 +17,7 @@
     </div> 
     
     <footer>
-      <a href="http://www.encyclopediedelaparole.org">encyclopediedelaparole.org</a>
+      <a href="http://www.encyclopediedelaparole.org">www.encyclopediedelaparole.org</a>
       <div class="index"></div>
     </footer>
     
